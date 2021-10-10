@@ -27,32 +27,6 @@
       ]
     },
     {
-      "title": "The fefeef Dinosaur",
-      "rating": 9.4,
-      "director": "PeterSohn",
-      "id": "720d006c-3a57-4b6a-b18f-9b713b073f3c",
-      "price": 10,
-      "links": [
-        {
-          "self": {
-            "href": "/movies/720d006c-3a57-4b6a-b18f-9b713b073f3c"
-          },
-          "update movie rate": {
-            "href": "movies/720d006c-3a57-4b6a-b18f-9b713b073f3c/<rate>",
-            "method": "UPDATE"
-          },
-          "delete movie": {
-            "href": "/movies/720d006c-3a57-4b6a-b18f-9b713b073f3c",
-            "method": "DELLETE"
-          },
-          "Update movie price": {
-            "href": "/moviesprice/720d006c-3a57-4b6a-b18f-9b713b073f3c?price=<price>",
-            "method": "UPDATE"
-          }
-        }
-      ]
-    },
-    {
       "title": "The Martian",
       "rating": 8.2,
       "director": "RidleyScott",
@@ -211,7 +185,7 @@
   ],
   "links": [
     {
-      "self": {
+      "all data": {
         "href": "/json"
       },
       "movies": {

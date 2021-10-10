@@ -58,10 +58,14 @@ def create_movie(movieid):
 # delete a movie
 @app.route("/movies/<movieid>", methods=["DELETE"])
 def del_movie(movieid):
+    movieDelete = []
     for movie in movies:
         if str(movie["id"]) == str(movieid):
             movies.remove(movie)
-            return make_response(jsonify(movie),200)
+            movie.pop("links")
+            movieDelete.append(movie)
+            movieDelete.append(links)
+            return make_response(jsonify(movieDelete),200)
 
     res = make_response(jsonify({"error":"movie ID not found"}),400)
     return res
@@ -86,7 +90,7 @@ def get_movie_bytitle():
 # change a movie rating
 @app.route("/movies/<movieid>/<rate>", methods=["PUT"])
 def update_movie_rating(movieid, rate):
-    for movie in movies:
+    for movie in movies:    
         if str(movie["id"]) == str(movieid):
             movie["rating"] = int(rate)
             res = make_response(jsonify(movie),200)
