@@ -4,8 +4,8 @@ from werkzeug.exceptions import NotFound
 
 app = Flask(__name__)
 
-PORT = 3200
-HOST = '192.168.0.15'
+PORT = 3300
+HOST = 'localhost'
 
 with open('bookings.json'.format("."), "r") as jsf:
    db_JSON = json.load(jsf)
@@ -59,5 +59,5 @@ def create_movie(userid):
 
 if __name__ == "__main__":
     print("Server running in port %s"%(PORT))
-    #app.run(host=HOST, port=PORT)
-    app.run()
+    app.run(host=HOST, port=PORT)
+    

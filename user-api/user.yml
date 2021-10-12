@@ -10,22 +10,22 @@ info:
     url: https://www.gnu.org/licenses/gpl-3.0.en.html
   version: 1.0.0
 servers:
-  - url: https://virtserver.swaggerhub.com/UE-archi-distribuees/User/1.0.0
-    description: SwaggerHub API Auto Mocking
-  - url: https://virtserver.swaggerhub.com/UE-archi-distribuees/Booking/1.0.0
-    description: SwaggerHub API Auto Mocking
-  - url: https://virtserver.swaggerhub.com/UE-archi-distribuees/Movie/1.0.0
-    description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/UE-archi-distribuees/User/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/UE-archi-distribuees/Booking/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/UE-archi-distribuees/Movie/1.0.0
+  description: SwaggerHub API Auto Mocking
 tags:
-  - name: admins
-    description: Secured Admin-only calls
-  - name: developers
-    description: Operations available to regular developers
+- name: admins
+  description: Secured Admin-only calls
+- name: developers
+  description: Operations available to regular developers
 paths:
   /:
     get:
       tags:
-        - developers
+      - developers
       summary: home page of the service
       description: |
         Nothing to do
@@ -41,7 +41,7 @@ paths:
   /users:
     get:
       tags:
-        - developers
+      - developers
       summary: get the full JSON database
       description: |
         Nothing to do
@@ -52,14 +52,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AllUsers"
-  /users/booking/{userid}:
-    post:
+                $ref: '#/components/schemas/AllUsers'
+  /userbyid/{userid}:
+   get:
       tags:
-        - admins
-      summary: add a booking for a user
-      description: Adds a booking for the user
-      operationId: add_booking_byuser
+        - developers
+      summary: get the users by a user id
+      description: |
+        By passing in the appropriate options, you can get bookings of a user
+      operationId: get_user_by_id
       parameters:
         - name: userid
           in: path
@@ -71,48 +72,110 @@ paths:
             maximum: 1
             minimum: 1
             type: string
+      responses:
+        "200":
+          description: Users infos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllUsers"
+        "400":
+          description: bad input parameter
+  
+  /users:
+    post:
+      tags:
+      - admins
+      summary: add a user to db
+      description: Adds a user
+      operationId: add_user
+      parameters: 
+      - name: userid
+        in: path
+        description: User ID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maximum: 1
+          minimum: 1
+          type: string
       requestBody:
         description: item to add
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/NewMovie"
+              $ref: '#/components/schemas/NewMovie'
       responses:
         "200":
           description: Booking created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BookingsUser"
+                $ref: '#/components/schemas/BookingsUser'
+        "409":
+          description: an existing item already exists
+          
+  /users/booking/{userid}:
+    post:
+      tags:
+      - admins
+      summary: add a booking for a user
+      description: Adds a booking for the user
+      operationId: add_booking_byuser
+      parameters:
+      - name: userid
+        in: path
+        description: User ID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maximum: 1
+          minimum: 1
+          type: string
+      requestBody:
+        description: item to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMovie'
+      responses:
+        "200":
+          description: Booking created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingsUser'
         "409":
           description: an existing item already exists
     delete:
       tags:
-        - admins
+      - admins
       summary: delete a booking for a user
       description: Adds a booking for the user
       operationId: delete_booking_byuser
       parameters:
-        - name: userid
-          in: path
-          description: User ID.
-          required: true
-          style: simple
-          explode: false
-          schema:
-            maximum: 1
-            minimum: 1
-            type: string
+      - name: userid
+        in: path
+        description: User ID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maximum: 1
+          minimum: 1
+          type: string
       responses:
         "200":
           description: Booking created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BookingsUser"
+                $ref: '#/components/schemas/BookingsUser'
         "409":
           description: an existing item already exists
-
+  
   /users/movies:
     get:
       tags:
@@ -128,7 +191,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MovieID"
-
+  
   /users/bookings/{userid}:
     get:
       tags:
@@ -157,26 +220,26 @@ paths:
                 $ref: "#/components/schemas/BookingsUser"
         "400":
           description: bad input parameter
-
+          
   /users/moviebyname/{movieTitle}:
     get:
       tags:
-        - developers
+      - developers
       summary: get the movie by title
       description: |
         By passing in the appropriate options, you can get bookings of a user
       operationId: get_movies_for_user
       parameters:
-        - name: movieTitle
-          in: path
-          description: Movie title.
-          required: true
-          style: simple
-          explode: false
-          schema:
-            maximum: 1
-            minimum: 1
-            type: string
+      - name: movieTitle
+        in: path
+        description: Movie title.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maximum: 1
+          minimum: 1
+          type: string
       responses:
         "200":
           description: Movie by name
@@ -186,14 +249,14 @@ paths:
                 $ref: "#/components/schemas/MovieItem"
         "400":
           description: bad input parameter
-
+    
 components:
   schemas:
     AllUsers:
       required:
-        - id
-        - name
-        - last_active
+      - id
+      - name
+      - last_active
       type: object
       properties:
         id:
@@ -285,7 +348,7 @@ components:
         updateMRate:
           type: string
           example: "href: /movies/<movieid>/<rate> method: UPDATE"
-
+    
     NewMovie:
       required:
         - date

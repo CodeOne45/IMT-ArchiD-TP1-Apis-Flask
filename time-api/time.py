@@ -4,7 +4,7 @@ from werkzeug.exceptions import NotFound
 
 app = Flask(__name__)
 
-PORT = 3200
+PORT = 3500
 HOST = '192.168.0.15'
 
 with open('times.json'.format("."), "r") as jsf:
