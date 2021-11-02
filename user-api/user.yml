@@ -53,7 +53,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AllUsers"
-  /userbyid/{userid}:
+  /user/{userid}:
     get:
       tags:
         - developers
@@ -195,7 +195,7 @@ paths:
     get:
       tags:
         - developers
-      summary: get the full JSON database
+      summary: get the full movie JSON database
       description: |
         Nothing to do
       operationId: get_movies

@@ -54,12 +54,11 @@ def get_json():
 @app.route("/bookings/<userid>", methods=["POST"])
 def create_movie(userid):
     req = request.get_json()
-    print(req)
     for booking in bookings:
         if str(booking["userid"]) == str(userid):
             # return make_response(jsonify({"error":"movie ID already exists"}),409)
             booking["dates"].append(req)
-            return make_response(jsonify(booking), 409)
+            return make_response(jsonify(booking), 400)
 
     res = make_response(jsonify({"Error": " User ID not found"}), 200)
     return res
@@ -67,15 +66,13 @@ def create_movie(userid):
 
 # delete a mobookingvie
 @app.route("/bookings/<userid>", methods=["DELETE"])
-def del_movie(movieid):
-    movieDelete = []
-    for movie in movies:
-        if str(movie["id"]) == str(movieid):
-            movies.remove(movie)
-            movie.pop("links")
-            movieDelete.append(movie)
-            movieDelete.append(links)
-            return make_response(jsonify(movieDelete), 200)
+def del_movie(userid):
+    bookingDelete = []
+    for booking in bookings:
+        if str(booking["userid"]) == str(userid):
+            bookings.remove(booking)
+            bookingDelete.append(booking)
+            return make_response(jsonify(bookingDelete), 200)
 
     res = make_response(jsonify({"error": "movie ID not found"}), 400)
     return res
