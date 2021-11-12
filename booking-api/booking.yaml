@@ -1,17 +1,15 @@
 ---
 openapi: 3.0.0
 info:
-  title: User API
-  description: This is the API of the User service
+  title: Booking API
+  description: This is the API of the Booking service
   contact:
-    email: aman.kumar@imt-atlantique.fr
+    email: helene.coullon@imt-atlantique.fr
   license:
     name: GPL v3
     url: https://www.gnu.org/licenses/gpl-3.0.en.html
   version: 1.0.0
 servers:
-  - url: https://virtserver.swaggerhub.com/UE-archi-distribuees/User/1.0.0
-    description: SwaggerHub API Auto Mocking
   - url: https://virtserver.swaggerhub.com/UE-archi-distribuees/Booking/1.0.0
     description: SwaggerHub API Auto Mocking
   - url: https://virtserver.swaggerhub.com/UE-archi-distribuees/Movie/1.0.0
@@ -37,8 +35,8 @@ paths:
             text/html:
               schema:
                 type: string
-                example: <h1>Welcome to User service</h1>
-  /users:
+                example: <h1>Test</h1>
+  /bookings:
     get:
       tags:
         - developers
@@ -52,8 +50,35 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AllUsers"
-  /users/booking/{userid}:
+                $ref: "#/components/schemas/AllBookings"
+  /bookings/{userid}:
+    get:
+      tags:
+        - developers
+      summary: get the bookings from a user id
+      description: |
+        By passing in the appropriate options, you can get bookings of a user
+      operationId: get_booking_for_user
+      parameters:
+        - name: userid
+          in: path
+          description: User ID.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maximum: 1
+            minimum: 1
+            type: string
+      responses:
+        "200":
+          description: Bookings of the user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingsUser"
+        "400":
+          description: bad input parameter
     post:
       tags:
         - admins
@@ -86,16 +111,18 @@ paths:
                 $ref: "#/components/schemas/BookingsUser"
         "409":
           description: an existing item already exists
-    delete:
+  /bookings/schedule/{date}:
+    get:
       tags:
-        - admins
-      summary: delete a booking for a user
-      description: Adds a booking for the user
-      operationId: delete_booking_byuser
+        - developers
+      summary: get movie(s) id(s) with a given date
+      description: |
+        By passing in the appropriate options, you can get list of movies which are avalable on the given date
+      operationId: get_movie_by_date
       parameters:
-        - name: userid
+        - name: date
           in: path
-          description: User ID.
+          description: Date.
           required: true
           style: simple
           explode: false
@@ -105,106 +132,19 @@ paths:
             type: string
       responses:
         "200":
-          description: Booking created
+          description: Moives list
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BookingsUser"
-        "409":
-          description: an existing item already exists
-
-  /users/movies:
-    get:
-      tags:
-        - developers
-      summary: get the full JSON database
-      description: |
-        Nothing to do
-      operationId: get_movies
-      responses:
-        "200":
-          description: full JSON
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MovieID"
-
-  /users/bookings/{userid}:
-    get:
-      tags:
-        - developers
-      summary: get the bookings from a user id
-      description: |
-        By passing in the appropriate options, you can get bookings of a user
-      operationId: get_booking_for_user
-      parameters:
-        - name: userid
-          in: path
-          description: User ID.
-          required: true
-          style: simple
-          explode: false
-          schema:
-            maximum: 1
-            minimum: 1
-            type: string
-      responses:
-        "200":
-          description: Bookings of the user
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BookingsUser"
+                $ref: "#/components/schemas/MovieIds"
         "400":
           description: bad input parameter
-
-  /users/moviebyname/{movieTitle}:
-    get:
-      tags:
-        - developers
-      summary: get the movie by title
-      description: |
-        By passing in the appropriate options, you can get bookings of a user
-      operationId: get_movies_for_user
-      parameters:
-        - name: movieTitle
-          in: path
-          description: Movie title.
-          required: true
-          style: simple
-          explode: false
-          schema:
-            maximum: 1
-            minimum: 1
-            type: string
-      responses:
-        "200":
-          description: Movie by name
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MovieItem"
-        "400":
-          description: bad input parameter
-
 components:
   schemas:
-    AllUsers:
-      required:
-        - id
-        - name
-        - last_active
-      type: object
-      properties:
-        id:
-          type: string
-          example: chris_rivers
-        name:
-          type: string
-          example: Chris Rivers
-        last_active:
-          type: number
-          example: 1360031010
+    AllBookings:
+      type: array
+      items:
+        $ref: "#/components/schemas/BookingsUser"
     BookingsUser:
       required:
         - dates
@@ -231,61 +171,7 @@ components:
           type: array
           items:
             type: string
-            example: 276c79ec-a26a-40a6-b3d3-fb242a5947b6S
-    MovieID:
-      required:
-        - id
-        - link
-      type: object
-      properties:
-        id:
-          $ref: "#/components/schemas/MovieItem"
-    MovieItem:
-      required:
-        - director
-        - rating
-        - title
-        - price
-        - link
-      type: object
-      properties:
-        title:
-          type: string
-          example: The Martian
-        rating:
-          type: string
-          example: "7"
-        director:
-          type: string
-          example: Paul McGuigan
-        price:
-          type: string
-          example: "9"
-        link:
-          type: array
-          items:
-            $ref: "#/components/schemas/LinkItem"
-    LinkItem:
-      required:
-        - self
-        - deleteMovie
-        - updateMPrice
-        - updateMRate
-      type: object
-      properties:
-        self:
-          type: string
-          example: "href: /movies/<movieid> method: GET"
-        deleteMovie:
-          type: string
-          example: "href: /movies/<movieid> method: DELETE"
-        updateMPrice:
-          type: string
-          example: "href: /movies/<movieid>/<price> method: UPDATE"
-        updateMRate:
-          type: string
-          example: "href: /movies/<movieid>/<rate> method: UPDATE"
-
+            example: 276c79ec-a26a-40a6-b3d3-fb242a5947b6
     NewMovie:
       required:
         - date
@@ -298,3 +184,13 @@ components:
         movieid:
           type: string
           example: 276c79ec-a26a-40a6-b3d3-fb242a5947b6
+    MovieIds:
+      required:
+        - movieid
+      type: object
+      properties:
+        movieid:
+          type: array
+          items:
+            type: string
+            example: 276c79ec-a26a-40a6-b3d3-fb242a5947b6

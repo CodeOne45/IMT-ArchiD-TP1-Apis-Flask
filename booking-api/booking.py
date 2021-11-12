@@ -1,100 +1,151 @@
+# ------ Imports -------
+
 from flask import Flask, render_template, request, jsonify, make_response
 import json
 import requests
 from werkzeug.exceptions import NotFound
+
+# ------ Constants -------
 
 app = Flask(__name__)
 
 PORT = 3300
 HOST = 'localhost'
 
+TIME_API_URL = "http://localhost:3500/showmovies"
+
+txt_template = 'This is my HTML template for Booking service'
+msg_root = "Welcome to the Booking service!"
+msg_booking_user_not_found = "booking user not found"
+msg_user_id_not_found = "User ID not found"
+msg_movie_id_not_found = "movie ID not found"
+
+
+#  ------ Uploads ------
+
 with open('bookings.json'.format("."), "r") as jsf:
     db_JSON = json.load(jsf)
-
+# DB
 bookings = db_JSON["bookings"]
-# links = db_JSON["links"]
+
+# ----- Functions for API requests ------
 
 
-# root message
 @app.route("/", methods=['GET'])
 def home():
-    return make_response("<h1 style='color:blue'>Welcome to the Booking service!</h1>",  200)
+    """ This function return a html for the root page
 
-# to test templates of Flask
+        Returns:
+            HTML: Root message
+    """
+    return make_response(msg_root,  200)
 
 
 @app.route("/template", methods=['GET'])
 def template():
-    return make_response(render_template('index.html', body_text='This is my HTML template for Booking service'), 200)
+    """ This function return a html page for the template root
 
-# get the complete json database or booking by id
+        Returns:
+            HTML: Template page message
+    """
+    return make_response(render_template('index.html', body_text=txt_template), 200)
 
 
 @app.route("/bookings", methods=['GET'])
 def get_json():
+    """ Get the complete Booking JSON file or a booking for a given user ID
+
+    Parameters:
+        userid (string): user booking ID
+
+    Returns:
+        - message: Error message if user ID doesn't exists
+        - JSON: The booking details which correspond to the 
+                user ID in JSON format
+        - JSON: Bookings in JSON format
+    """
+    # Case : user id is pass in parameters
     if request.args:
-        listBookingsByUser = []
+        list_bookings_by_user = []
         req = request.args
         for booking in bookings:
             if str(booking["userid"]) == str(req["userid"]):
-                listBookingsByUser.append(booking)
-        if not listBookingsByUser:
+                list_bookings_by_user.append(booking)
+        if not list_bookings_by_user:
             res = make_response(
-                jsonify({"error": "booking user not found"}), 400)
+                jsonify({"error": msg_booking_user_not_found}), 400)
             return res
-        res = make_response(jsonify(listBookingsByUser), 200)
+        res = make_response(jsonify(list_bookings_by_user), 200)
         return res
 
+    # Case : there is no parameters
     return make_response(jsonify(db_JSON), 200)
 
 
-# add a new booking to a given userID
-# Todo: Verify if given movie is avalable on the given date
-
 @app.route("/bookings/<userid>", methods=["POST"])
 def create_movie(userid):
+    """ Add a new booking to a given user ID
+
+    Args:
+        userid (string): The user ID for which you must add a new booking
+
+    Returns:
+        - JSON: Added booking in JSON format
+        - message: Error message if user ID not found 
+    """
     req = request.get_json()
     for booking in bookings:
         if str(booking["userid"]) == str(userid):
-            # return make_response(jsonify({"error":"movie ID already exists"}),409)
             booking["dates"].append(req)
             return make_response(jsonify(booking), 400)
 
-    res = make_response(jsonify({"Error": " User ID not found"}), 200)
+    res = make_response(jsonify({"Error": msg_user_id_not_found}), 200)
     return res
 
 
-# delete a mobookingvie
 @app.route("/bookings/<userid>", methods=["DELETE"])
 def del_movie(userid):
-    bookingDelete = []
+    """ Dellete a booking from a given user id
+
+    Args:
+        userid (string): User ID to delete booking
+
+    Returns:
+        - JSON: Deleted booking details in JSON format
+        - message: Error message if user ID is not found
+    """
+    deleted_bookings = []
     for booking in bookings:
         if str(booking["userid"]) == str(userid):
             bookings.remove(booking)
-            bookingDelete.append(booking)
+            deleted_bookings.append(booking)
             return make_response(jsonify(bookingDelete), 200)
 
-    res = make_response(jsonify({"error": "movie ID not found"}), 400)
+    res = make_response(jsonify({"error": msg_user_id_not_found}), 400)
     return res
 
-# Get movie id with a given date date / avalables movies on a given date
 # Ex : bookings/schedule/20151130
-# TODO : Add this function to API doc
 
 
 @app.route("/bookings/schedule/<date>", methods=['GET'])
 def get_movie_by_date(date):
+    """ Get movie(s) id(s) with a given date / avalables movies on a given date
 
-    req = request.args
+    Args:
+        date (string): the date to search for a movie
 
+    Returns:
+        JSON: Movie id's JSON format list
+    """
     parameters = {
         "date": str(date)
     }
     response = requests.get(
-        "http://localhost:3500/showmovies", params=parameters)
-    # print(response.json()[0]["movies"][0])
+        TIME_API_URL, params=parameters)
     res = make_response(jsonify(response.json()))
     return res
+
+# Main function to launch Booking API/App
 
 
 if __name__ == "__main__":
