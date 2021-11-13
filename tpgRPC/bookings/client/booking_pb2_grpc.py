@@ -16,28 +16,23 @@ class BookingStub(object):
         """
         self.CreatBooking = channel.unary_unary(
                 '/Booking/CreatBooking',
-                request_serializer=booking__pb2.UserID.SerializeToString,
+                request_serializer=booking__pb2.BookingData.SerializeToString,
                 response_deserializer=booking__pb2.BookingData.FromString,
                 )
         self.DeleteBooking = channel.unary_unary(
                 '/Booking/DeleteBooking',
                 request_serializer=booking__pb2.UserID.SerializeToString,
-                response_deserializer=booking__pb2.Empty.FromString,
+                response_deserializer=booking__pb2.BookingData.FromString,
                 )
         self.GetListBookings = channel.unary_stream(
                 '/Booking/GetListBookings',
                 request_serializer=booking__pb2.Empty.SerializeToString,
                 response_deserializer=booking__pb2.BookingData.FromString,
                 )
-        self.GetBookingByUserID = channel.unary_unary(
+        self.GetBookingByUserID = channel.unary_stream(
                 '/Booking/GetBookingByUserID',
                 request_serializer=booking__pb2.UserID.SerializeToString,
-                response_deserializer=booking__pb2.BookingData.FromString,
-                )
-        self.GetMovieByTime = channel.unary_stream(
-                '/Booking/GetMovieByTime',
-                request_serializer=booking__pb2.Date.SerializeToString,
-                response_deserializer=booking__pb2.ShowTimeData.FromString,
+                response_deserializer=booking__pb2.SingleBookingData.FromString,
                 )
 
 
@@ -68,39 +63,28 @@ class BookingServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetMovieByTime(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
 
 def add_BookingServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'CreatBooking': grpc.unary_unary_rpc_method_handler(
                     servicer.CreatBooking,
-                    request_deserializer=booking__pb2.UserID.FromString,
+                    request_deserializer=booking__pb2.BookingData.FromString,
                     response_serializer=booking__pb2.BookingData.SerializeToString,
             ),
             'DeleteBooking': grpc.unary_unary_rpc_method_handler(
                     servicer.DeleteBooking,
                     request_deserializer=booking__pb2.UserID.FromString,
-                    response_serializer=booking__pb2.Empty.SerializeToString,
+                    response_serializer=booking__pb2.BookingData.SerializeToString,
             ),
             'GetListBookings': grpc.unary_stream_rpc_method_handler(
                     servicer.GetListBookings,
                     request_deserializer=booking__pb2.Empty.FromString,
                     response_serializer=booking__pb2.BookingData.SerializeToString,
             ),
-            'GetBookingByUserID': grpc.unary_unary_rpc_method_handler(
+            'GetBookingByUserID': grpc.unary_stream_rpc_method_handler(
                     servicer.GetBookingByUserID,
                     request_deserializer=booking__pb2.UserID.FromString,
-                    response_serializer=booking__pb2.BookingData.SerializeToString,
-            ),
-            'GetMovieByTime': grpc.unary_stream_rpc_method_handler(
-                    servicer.GetMovieByTime,
-                    request_deserializer=booking__pb2.Date.FromString,
-                    response_serializer=booking__pb2.ShowTimeData.SerializeToString,
+                    response_serializer=booking__pb2.SingleBookingData.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -124,7 +108,7 @@ class Booking(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Booking/CreatBooking',
-            booking__pb2.UserID.SerializeToString,
+            booking__pb2.BookingData.SerializeToString,
             booking__pb2.BookingData.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -142,7 +126,7 @@ class Booking(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Booking/DeleteBooking',
             booking__pb2.UserID.SerializeToString,
-            booking__pb2.Empty.FromString,
+            booking__pb2.BookingData.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -174,25 +158,8 @@ class Booking(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Booking/GetBookingByUserID',
+        return grpc.experimental.unary_stream(request, target, '/Booking/GetBookingByUserID',
             booking__pb2.UserID.SerializeToString,
-            booking__pb2.BookingData.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def GetMovieByTime(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/Booking/GetMovieByTime',
-            booking__pb2.Date.SerializeToString,
-            booking__pb2.ShowTimeData.FromString,
+            booking__pb2.SingleBookingData.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

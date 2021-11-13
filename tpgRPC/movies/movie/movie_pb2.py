@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0bmovie.proto\"\x15\n\x07MovieID\x12\n\n\x02id\x18\x01 \x01(\t\"\"\n\x04Rate\x12\x0e\n\x06rating\x18\x01 \x01(\x02\x12\n\n\x02id\x18\x02 \x01(\t\"\x1c\n\x08\x44irector\x12\x10\n\x08\x64irector\x18\x01 \x01(\t\"\x16\n\x05Title\x12\r\n\x05title\x18\x01 \x01(\t\"H\n\tMovieData\x12\r\n\x05title\x18\x01 \x01(\t\x12\x0e\n\x06rating\x18\x02 \x01(\x02\x12\x10\n\x08\x64irector\x18\x03 \x01(\t\x12\n\n\x02id\x18\x04 \x01(\t\"\x07\n\x05\x45mpty2\x9d\x02\n\x05Movie\x12$\n\x08\x41\x64\x64Movie\x12\n.MovieData\x1a\n.MovieData\"\x00\x12!\n\x0b\x44\x65leteMovie\x12\x08.MovieID\x1a\x06.Empty\"\x00\x12\"\n\x0fUpdateMovieRate\x12\x05.Rate\x1a\x06.Empty\"\x00\x12&\n\x0cGetMovieByID\x12\x08.MovieID\x1a\n.MovieData\"\x00\x12\'\n\rGetListMovies\x12\x06.Empty\x1a\n.MovieData\"\x00\x30\x01\x12-\n\x12GetMovieByDirector\x12\t.Director\x1a\n.MovieData\"\x00\x12\'\n\x0fGetMovieByTitle\x12\x06.Title\x1a\n.MovieData\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x0bmovie.proto\"\x15\n\x07MovieID\x12\n\n\x02id\x18\x01 \x01(\t\"\"\n\x04Rate\x12\x0e\n\x06rating\x18\x01 \x01(\x02\x12\n\n\x02id\x18\x02 \x01(\t\"\x1c\n\x08\x44irector\x12\x10\n\x08\x64irector\x18\x01 \x01(\t\"\x16\n\x05Title\x12\r\n\x05title\x18\x01 \x01(\t\"H\n\tMovieData\x12\r\n\x05title\x18\x01 \x01(\t\x12\x0e\n\x06rating\x18\x02 \x01(\x02\x12\x10\n\x08\x64irector\x18\x03 \x01(\t\x12\n\n\x02id\x18\x04 \x01(\t\"\x07\n\x05\x45mpty2\xa1\x02\n\x05Movie\x12$\n\x08\x41\x64\x64Movie\x12\n.MovieData\x1a\n.MovieData\"\x00\x12%\n\x0b\x44\x65leteMovie\x12\x08.MovieID\x1a\n.MovieData\"\x00\x12\"\n\x0fUpdateMovieRate\x12\x05.Rate\x1a\x06.Empty\"\x00\x12&\n\x0cGetMovieByID\x12\x08.MovieID\x1a\n.MovieData\"\x00\x12\'\n\rGetListMovies\x12\x06.Empty\x1a\n.MovieData\"\x00\x30\x01\x12-\n\x12GetMovieByDirector\x12\t.Director\x1a\n.MovieData\"\x00\x12\'\n\x0fGetMovieByTitle\x12\x06.Title\x1a\n.MovieData\"\x00\x62\x06proto3'
 )
 
 
@@ -297,7 +297,7 @@ _MOVIE = _descriptor.ServiceDescriptor(
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
   serialized_start=212,
-  serialized_end=497,
+  serialized_end=501,
   methods=[
   _descriptor.MethodDescriptor(
     name='AddMovie',
@@ -315,7 +315,7 @@ _MOVIE = _descriptor.ServiceDescriptor(
     index=1,
     containing_service=None,
     input_type=_MOVIEID,
-    output_type=_EMPTY,
+    output_type=_MOVIEDATA,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

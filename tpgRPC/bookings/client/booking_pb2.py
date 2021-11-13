@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\rbooking.proto\"\x14\n\x04\x44\x61te\x12\x0c\n\x04\x64\x61te\x18\x01 \x01(\t\"\x14\n\x06UserID\x12\n\n\x02id\x18\x01 \x01(\t\".\n\x0cShowTimeData\x12\x0c\n\x04\x64\x61te\x18\x01 \x01(\t\x12\x10\n\x08idMovies\x18\x02 \x01(\t\"+\n\x0b\x44\x61tesMovies\x12\x0c\n\x04\x64\x61te\x18\x01 \x01(\t\x12\x0e\n\x06movies\x18\x02 \x03(\t\":\n\x0b\x42ookingData\x12\x0e\n\x06userid\x18\x01 \x01(\t\x12\x1b\n\x05\x64\x61tes\x18\x02 \x03(\x0b\x32\x0c.DatesMovies\"\x07\n\x05\x45mpty2\xde\x01\n\x07\x42ooking\x12\'\n\x0c\x43reatBooking\x12\x07.UserID\x1a\x0c.BookingData\"\x00\x12\"\n\rDeleteBooking\x12\x07.UserID\x1a\x06.Empty\"\x00\x12+\n\x0fGetListBookings\x12\x06.Empty\x1a\x0c.BookingData\"\x00\x30\x01\x12-\n\x12GetBookingByUserID\x12\x07.UserID\x1a\x0c.BookingData\"\x00\x12*\n\x0eGetMovieByTime\x12\x05.Date\x1a\r.ShowTimeData\"\x00\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n\rbooking.proto\"\x14\n\x04\x44\x61te\x12\x0c\n\x04\x64\x61te\x18\x01 \x01(\t\"\x18\n\x06UserID\x12\x0e\n\x06userid\x18\x01 \x01(\t\"+\n\x0b\x44\x61tesMovies\x12\x0c\n\x04\x64\x61te\x18\x01 \x01(\t\x12\x0e\n\x06movies\x18\x02 \x03(\t\":\n\x0b\x42ookingData\x12\x0e\n\x06userid\x18\x01 \x01(\t\x12\x1b\n\x05\x64\x61tes\x18\x02 \x03(\x0b\x32\x0c.DatesMovies\"A\n\x11SingleBookingData\x12\x0e\n\x06userid\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x02 \x01(\t\x12\x0e\n\x06movies\x18\x03 \x01(\t\"\x07\n\x05\x45mpty2\xc5\x01\n\x07\x42ooking\x12,\n\x0c\x43reatBooking\x12\x0c.BookingData\x1a\x0c.BookingData\"\x00\x12(\n\rDeleteBooking\x12\x07.UserID\x1a\x0c.BookingData\"\x00\x12+\n\x0fGetListBookings\x12\x06.Empty\x1a\x0c.BookingData\"\x00\x30\x01\x12\x35\n\x12GetBookingByUserID\x12\x07.UserID\x1a\x12.SingleBookingData\"\x00\x30\x01\x62\x06proto3'
 )
 
 
@@ -66,7 +66,7 @@ _USERID = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='UserID.id', index=0,
+      name='userid', full_name='UserID.userid', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -85,46 +85,7 @@ _USERID = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=39,
-  serialized_end=59,
-)
-
-
-_SHOWTIMEDATA = _descriptor.Descriptor(
-  name='ShowTimeData',
-  full_name='ShowTimeData',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='date', full_name='ShowTimeData.date', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='idMovies', full_name='ShowTimeData.idMovies', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=61,
-  serialized_end=107,
+  serialized_end=63,
 )
 
 
@@ -162,8 +123,8 @@ _DATESMOVIES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=109,
-  serialized_end=152,
+  serialized_start=65,
+  serialized_end=108,
 )
 
 
@@ -201,8 +162,54 @@ _BOOKINGDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=154,
-  serialized_end=212,
+  serialized_start=110,
+  serialized_end=168,
+)
+
+
+_SINGLEBOOKINGDATA = _descriptor.Descriptor(
+  name='SingleBookingData',
+  full_name='SingleBookingData',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='userid', full_name='SingleBookingData.userid', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='date', full_name='SingleBookingData.date', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='movies', full_name='SingleBookingData.movies', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=170,
+  serialized_end=235,
 )
 
 
@@ -226,16 +233,16 @@ _EMPTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=214,
-  serialized_end=221,
+  serialized_start=237,
+  serialized_end=244,
 )
 
 _BOOKINGDATA.fields_by_name['dates'].message_type = _DATESMOVIES
 DESCRIPTOR.message_types_by_name['Date'] = _DATE
 DESCRIPTOR.message_types_by_name['UserID'] = _USERID
-DESCRIPTOR.message_types_by_name['ShowTimeData'] = _SHOWTIMEDATA
 DESCRIPTOR.message_types_by_name['DatesMovies'] = _DATESMOVIES
 DESCRIPTOR.message_types_by_name['BookingData'] = _BOOKINGDATA
+DESCRIPTOR.message_types_by_name['SingleBookingData'] = _SINGLEBOOKINGDATA
 DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -253,13 +260,6 @@ UserID = _reflection.GeneratedProtocolMessageType('UserID', (_message.Message,),
   })
 _sym_db.RegisterMessage(UserID)
 
-ShowTimeData = _reflection.GeneratedProtocolMessageType('ShowTimeData', (_message.Message,), {
-  'DESCRIPTOR' : _SHOWTIMEDATA,
-  '__module__' : 'booking_pb2'
-  # @@protoc_insertion_point(class_scope:ShowTimeData)
-  })
-_sym_db.RegisterMessage(ShowTimeData)
-
 DatesMovies = _reflection.GeneratedProtocolMessageType('DatesMovies', (_message.Message,), {
   'DESCRIPTOR' : _DATESMOVIES,
   '__module__' : 'booking_pb2'
@@ -273,6 +273,13 @@ BookingData = _reflection.GeneratedProtocolMessageType('BookingData', (_message.
   # @@protoc_insertion_point(class_scope:BookingData)
   })
 _sym_db.RegisterMessage(BookingData)
+
+SingleBookingData = _reflection.GeneratedProtocolMessageType('SingleBookingData', (_message.Message,), {
+  'DESCRIPTOR' : _SINGLEBOOKINGDATA,
+  '__module__' : 'booking_pb2'
+  # @@protoc_insertion_point(class_scope:SingleBookingData)
+  })
+_sym_db.RegisterMessage(SingleBookingData)
 
 Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
   'DESCRIPTOR' : _EMPTY,
@@ -290,15 +297,15 @@ _BOOKING = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=224,
-  serialized_end=446,
+  serialized_start=247,
+  serialized_end=444,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreatBooking',
     full_name='Booking.CreatBooking',
     index=0,
     containing_service=None,
-    input_type=_USERID,
+    input_type=_BOOKINGDATA,
     output_type=_BOOKINGDATA,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
@@ -309,7 +316,7 @@ _BOOKING = _descriptor.ServiceDescriptor(
     index=1,
     containing_service=None,
     input_type=_USERID,
-    output_type=_EMPTY,
+    output_type=_BOOKINGDATA,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
@@ -329,17 +336,7 @@ _BOOKING = _descriptor.ServiceDescriptor(
     index=3,
     containing_service=None,
     input_type=_USERID,
-    output_type=_BOOKINGDATA,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='GetMovieByTime',
-    full_name='Booking.GetMovieByTime',
-    index=4,
-    containing_service=None,
-    input_type=_DATE,
-    output_type=_SHOWTIMEDATA,
+    output_type=_SINGLEBOOKINGDATA,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

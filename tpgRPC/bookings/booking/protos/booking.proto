@@ -1,20 +1,15 @@
 syntax = "proto3";
 service Booking {
-  rpc CreatBooking(UserID) returns (BookingData) {}
-  rpc DeleteBooking(UserID) returns (Empty) {}
+  rpc CreatBooking(BookingData) returns (BookingData) {}
+  rpc DeleteBooking(UserID) returns (BookingData) {}
   rpc GetListBookings(Empty) returns (stream BookingData) {}
-  rpc GetBookingByUserID(UserID) returns (BookingData) {}
-  rpc GetMovieByTime(Date) returns (stream ShowTimeData) {}
+  rpc GetBookingByUserID(UserID) returns (stream SingleBookingData) {}
 }
 message Date {
   string date = 1;
 }
 message UserID {
-  string id = 1;
-}
-message ShowTimeData {
-  string date = 1;
-  string idMovies = 2;
+  string userid = 1;
 }
 message DatesMovies{
   string date = 1;
@@ -23,6 +18,11 @@ message DatesMovies{
 message BookingData {
   string userid = 1;
   repeated DatesMovies dates = 2;
+}
+message SingleBookingData {
+  string userid = 1;
+  string date = 2;
+  string movies = 3;
 }
 message Empty {
 }

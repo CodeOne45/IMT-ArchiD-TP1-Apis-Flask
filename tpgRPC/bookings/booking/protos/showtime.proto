@@ -1,0 +1,10 @@
+syntax = "proto3";
+import "booking.proto";
+service Showtime {
+  rpc Getshowmovies(Date) returns (ShowTimeData) {}
+  rpc GetListShowtimes(Empty) returns (stream ShowTimeData) {}
+}
+message ShowTimeData {
+  string date = 1;
+  repeated string idMovies = 2;
+}
