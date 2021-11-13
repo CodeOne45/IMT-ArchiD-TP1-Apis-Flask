@@ -81,8 +81,6 @@ def get_json():
     # Case : there is no parameters
     return make_response(jsonify(db_JSON), 200)
 
-# TODO : verify if given movies are avalable in schedules
-
 
 @app.route("/bookings/<userid>", methods=["POST"])
 def create_booking(userid):
@@ -94,6 +92,28 @@ def create_booking(userid):
     Returns:
         - JSON: Added booking in JSON format
         - message: Error message if user ID not found 
+
+    Example:
+        JSON:
+            {
+                "dates": [
+                    {
+                    "date": "20151201",
+                    "movies": [
+                        "267eedb8-0f5d-42d5-8f43-72426b9fb3e6",
+                        "7daf7208-be4d-4944-a3ae-c1c2f516f3e6",
+                        "39ab85e5-5e8e-4dc5-afea-65dc368bd7ab",
+                        "a8034f44-aee4-44cf-b32c$$$$$$"
+                        ]
+                    },
+                    {
+                    "date": "20151204",
+                    "movies": [
+                        "96798c08-d19b-4986-a05d-7da856efb697"
+                        ]
+                    }
+                ]
+            }
     """
     req = request.get_json()
     for booking in bookings:
