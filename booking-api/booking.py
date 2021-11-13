@@ -97,19 +97,26 @@ def create_booking(userid):
     """
     req = request.get_json()
     for booking in bookings:
+
         if str(booking["userid"]) == str(userid):
-            for date in req["dates"]:
-                booking["dates"].append({"date": "", "movies": []})
+
+            for date in req["dates"]:  # Iterate through all the new date to add
+
+                booking["dates"].append(
+                    {"date": "", "movies": []})  # Create a new date
                 avalable_movie = get_movie_by_date(str(date["date"]))
+
+                # Iterate through all the existing date
                 for items in booking["dates"]:
-                    if not items["date"]:
-                        print("---------Empty----------")
+                    if not items["date"]:  # Verfy if date is empty in order to add
+
                         for movie in date["movies"]:
-                            if movie in avalable_movie:
+
+                            if movie in avalable_movie:  # Verify if movie is avalable on give date throw Time API
 
                                 items["date"] = date["date"]
-                                #booking["dates"].append({"date": "", "movie": []})
                                 items["movies"].append(movie)
+
             return make_response(jsonify(booking), 400)
 
     res = make_response(jsonify({"Error": msg_user_id_not_found}), 200)
