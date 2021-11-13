@@ -81,9 +81,11 @@ def get_json():
     # Case : there is no parameters
     return make_response(jsonify(db_JSON), 200)
 
+# TODO : verify if given movies are avalable in schedules
+
 
 @app.route("/bookings/<userid>", methods=["POST"])
-def create_movie(userid):
+def create_booking(userid):
     """ Add a new booking to a given user ID
 
     Args:
@@ -96,7 +98,18 @@ def create_movie(userid):
     req = request.get_json()
     for booking in bookings:
         if str(booking["userid"]) == str(userid):
-            booking["dates"].append(req)
+            for date in req["dates"]:
+                booking["dates"].append({"date": "", "movies": []})
+                avalable_movie = get_movie_by_date(str(date["date"]))
+                for items in booking["dates"]:
+                    if not items["date"]:
+                        print("---------Empty----------")
+                        for movie in date["movies"]:
+                            if movie in avalable_movie:
+
+                                items["date"] = date["date"]
+                                #booking["dates"].append({"date": "", "movie": []})
+                                items["movies"].append(movie)
             return make_response(jsonify(booking), 400)
 
     res = make_response(jsonify({"Error": msg_user_id_not_found}), 200)
@@ -127,7 +140,6 @@ def del_movie(userid):
 # Ex : bookings/schedule/20151130
 
 
-@app.route("/bookings/schedule/<date>", methods=['GET'])
 def get_movie_by_date(date):
     """ Get movie(s) id(s) with a given date / avalables movies on a given date
 
@@ -142,8 +154,7 @@ def get_movie_by_date(date):
     }
     response = requests.get(
         TIME_API_URL, params=parameters)
-    res = make_response(jsonify(response.json()))
-    return res
+    return response.json()
 
 # Main function to launch Booking API/App
 
